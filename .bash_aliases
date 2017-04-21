@@ -1,0 +1,6 @@
+alias reload=". ~/.bashrc"
+alias gs="git status"
+alias pyvenv="pyvenv-3.5"
+alias venv="pyvenv-3.5"
+alias virtualenv="pyvenv-3.5"
+alias ll="ls -la"

@@ -30,17 +30,17 @@ prompt() {
     fi
     
     GITSTATUS=$(git status 2> /dev/null)
-#    if [ $? -eq 0 ]; then
-#        echo $GITSTATUS | grep "not staged" > /dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        echo $GITSTATUS | grep "not staged" > /dev/null 2>&1
         if [ $? -eq 0 ]; then
-            LEFTPROMPT=$LEFTPROMPT"\[$Red\]"
-        else
             LEFTPROMPT=$LEFTPROMPT"\[$Green\]"
+        else
+            LEFTPROMPT=$LEFTPROMPT"\[$Red\]"
         fi
         # BRANCH=`git describe --contains --all HEAD`
         BRANCH=`git rev-parse --abbrev-ref HEAD`
         LEFTPROMPT=$LEFTPROMPT" ["$BRANCH"]"
-#    fi
+    fi
 
     if [ $EUID -ne 0 ]; then
         PS1=$LEFTPROMPT" \[$BRed\]"$NonRootPrompt"\[$NoColor\] "

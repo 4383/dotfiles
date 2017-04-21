@@ -172,8 +172,6 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
       fi
 
 EDITOR=/usr/bin/vim
-export http_proxy=http://proxy.ecocenter.fr:2831
-export https_proxy=http://proxy.ecocenter.fr:2831
 
 export PATH=$PATH:~/bin
 

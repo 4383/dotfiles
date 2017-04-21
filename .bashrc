@@ -16,14 +16,12 @@ NonRootPrompt="\$"
 prompt() {
     USERNAME=`whoami`
     HOSTNAME=`hostname -s`
-    #CURRENTPATH=`pwd | sed "s|$HOME|~|g"`
     
     # Change the Window title
     WINDOWTITLE="$USERNAME@$HOSTNAME"
     echo -ne "\033]0;$WINDOWTITLE\007"
     
     # Change the dynamic prompt
-    #LEFTPROMPT="$Yellow$CURRENTPATH"
     LEFTPROMPT="\[$Cyan\]$USERNAME@$HOSTNAME":"\[$Yellow\]\w"
     if [ ! -z $VIRTUAL_ENV ] ; then
         LEFTPROMPT="\[$Red\]("`basename $VIRTUAL_ENV`") "$LEFTPROMPT
@@ -37,7 +35,6 @@ prompt() {
         else
             LEFTPROMPT=$LEFTPROMPT"\[$Green\]"
         fi
-        # BRANCH=`git describe --contains --all HEAD`
         BRANCH=`git rev-parse --abbrev-ref HEAD`
         LEFTPROMPT=$LEFTPROMPT" ["$BRANCH"]"
     fi
@@ -47,8 +44,6 @@ prompt() {
     else
         PS1=$LEFTPROMPT" \[$BRed\]"$RootPrompt"\[$NoColor\] "
     fi
-
-    # echo -e -n $LEFTPROMPT
 }
 
 # Define PROMPT_COMMAND if not already defined (fix: Modifying title on SSH connections)

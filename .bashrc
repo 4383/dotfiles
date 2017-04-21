@@ -22,7 +22,9 @@ prompt() {
     echo -ne "\033]0;$WINDOWTITLE\007"
     
     # Change the dynamic prompt
-    LEFTPROMPT="\[$Cyan\]$USERNAME@$HOSTNAME":"\[$Yellow\]\w"
+    LEFTPROMPT="\[$Cyan\]$USERNAME@$HOSTNAME"
+
+    # If python virtualenv activate display it
     if [ ! -z $VIRTUAL_ENV ] ; then
         LEFTPROMPT="\[$Red\]("`basename $VIRTUAL_ENV`") "$LEFTPROMPT
     fi
@@ -38,11 +40,12 @@ prompt() {
         BRANCH=`git rev-parse --abbrev-ref HEAD`
         LEFTPROMPT=$LEFTPROMPT" ["$BRANCH"]"
     fi
+    LEFTPROMPT="\[$Yellow\]\w\n"$LEFTPROMPT
 
     if [ $EUID -ne 0 ]; then
-        PS1=$LEFTPROMPT" \[$BRed\]"$NonRootPrompt"\[$NoColor\] "
+        PS1=$LEFTPROMPT$NonRootPrompt"\[$NoColor\] "
     else
-        PS1=$LEFTPROMPT" \[$BRed\]"$RootPrompt"\[$NoColor\] "
+        PS1=$LEFTPROMPT"\[$BRed\]"$RootPrompt"\[$NoColor\] "
     fi
 }
 

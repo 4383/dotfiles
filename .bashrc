@@ -179,3 +179,4 @@ export PATH=$PATH:~/bin
 bind '"\e[A":history-search-backward'
 bind '"\e[B":history-search-forward'
 
+set -o vi

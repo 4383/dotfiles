@@ -38,3 +38,5 @@ map <C-p> :tabprevious<CR>
 map <C-n> :tabnext<CR>
 map <C-q> :tabclose<CR>
 map <C-j> :%!python -m json.tool<CR>
+
+command W :execute ':silent w !sudo tee % > /dev/null' | :edit!

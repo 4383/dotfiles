@@ -171,7 +171,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
       . /etc/bash_completion
       fi
 
-EDITOR=/usr/bin/vim
+export EDITOR=/usr/bin/vim
 
 export PATH=$PATH:~/bin
 

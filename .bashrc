@@ -1,3 +1,4 @@
+PROMPT_COMMAND="prompt"
 NoColor="\033[0m"
 Cyan="\033[0;36m"
 Green="\033[0;32m"
@@ -14,6 +15,7 @@ NonRootPrompt="\$"
 
 # Contextual prompt
 prompt() {
+    local EXIT="$?"
     USERNAME=`whoami`
     HOSTNAME=`hostname -s`
     
@@ -40,7 +42,19 @@ prompt() {
         BRANCH=`git rev-parse --abbrev-ref HEAD`
         LEFTPROMPT=$LEFTPROMPT" ["$BRANCH"]"
     fi
-    LEFTPROMPT="\[$Yellow\]\w\n"$LEFTPROMPT
+    nowcwd=`pwd`
+    devdir="/home/$USERNAME/dev/"
+    if [[ $nowcwd == $devdir* ]]; then
+        #LEFTPROMPT="\[$Yellow\]@dev=> "${$nowcwd/$devdir/""/}"\n"$LEFTPROMPT
+        LEFTPROMPT="\[$Yellow\]\w\n"$LEFTPROMPT
+    else
+        LEFTPROMPT="\[$Green\]\w\n"$LEFTPROMPT
+    fi
+    if [[ "0" != "${EXIT}" ]]; then
+      LEFTPROMPT=$LEFTPROMPT"\[$Red\][${EXIT}]"
+    else
+      LEFTPROMPT=$LEFTPROMPT"\[$Green\][${EXIT}]"
+    fi
 
     if [ $EUID -ne 0 ]; then
         PS1=$LEFTPROMPT$NonRootPrompt"\[$NoColor\] "
@@ -62,7 +76,6 @@ if [ -z "$PROMPT_COMMAND" ]; then
 fi
                                      
 # Main prompt
-PROMPT_COMMAND="prompt;$PROMPT_COMMAND"
 
 if [ $EUID -ne 0 ]; then
     PS1=$NonRootPrompt" "
@@ -180,3 +193,12 @@ bind '"\e[A":history-search-backward'
 bind '"\e[B":history-search-forward'
 
 set -o vi
+# pip bash completion start
+_pip_completion()
+{
+      COMPREPLY=( $( COMP_WORDS="${COMP_WORDS[*]}" \
+                         COMP_CWORD=$COMP_CWORD \
+                                            PIP_AUTO_COMPLETE=1 $1 ) )
+}
+complete -o default -F _pip_completion pip
+# pip bash completion end

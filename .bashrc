@@ -202,3 +202,24 @@ _pip_completion()
 }
 complete -o default -F _pip_completion pip
 # pip bash completion end
+function git() {
+    case $* in
+        init* ) shift 1; command git init --template=/home/herve/dev/.git-template "$@" ;;
+        clone* ) shift 1; command git clone --template=/home/herve/dev/.git-template "$@" ;;
+        * ) command git "$@" ;;
+    esac
+}
+# added by travis gem
+[ -f /home/herve/.travis/travis.sh ] && source /home/herve/.travis/travis.sh
+
+function connect() {
+    git init .
+    git remote add origin https://github.com/4383/$(basename $(pwd))
+    touch .gitignore
+    touch .gitkeep
+    git add .
+    git commit -m "initialize project"
+
+}
+
+export PATH="$HOME/.cargo/bin:$PATH"
